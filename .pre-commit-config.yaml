@@ -1,22 +1,17 @@
 repos:
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.7.0
     hooks:
-      - id: isort
-  - repo: https://github.com/psf/black
-    rev: 23.9.1
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
     hooks:
-    - id: black
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - "flake8-coding==1.3.2"
-          - "flake8-copyright==0.2.4"
-          - "flake8-debugger==4.1.2"
+      - id: prettier
+        exclude: fixtures|mocks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: check-ast
       - id: check-docstring-first
@@ -28,18 +23,18 @@ repos:
       - id: check-yaml
       - id: mixed-line-ending
       - id: name-tests-test
-        args: ['--django']
+        args: ["--django"]
       - id: check-json
       - id: requirements-txt-fixer
       - id: check-vcs-permalinks
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
         exclude_types: [json]
         args: [-L connexion]
   - repo: https://github.com/marco-c/taskcluster_yml_validator
-    rev: v0.0.10
+    rev: v0.0.12
     hooks:
       - id: taskcluster_yml
   - repo: https://github.com/asottile/yesqa
@@ -47,9 +42,9 @@ repos:
     hooks:
       - id: yesqa
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.6.0
+    rev: v1.12.1
     hooks:
-    -   id: mypy
+      - id: mypy
         name: mypy-backend
         files: ^backend/
         entry: mypy backend/
@@ -59,7 +54,7 @@ repos:
           - types-redis==3.5.1
           - types-python-dateutil==0.1.3
           - types-PyYAML==5.4.0
-    -   id: mypy
+      - id: mypy
         name: mypy-bot
         files: ^bot/
         entry: mypy bot/
@@ -68,21 +63,21 @@ repos:
           - types-requests==0.1.11
           - types-pytz==2022.6.0.1
           - types-PyYAML==5.4.0
-    -   id: mypy
+      - id: mypy
         name: mypy-events
         files: ^events/
         entry: mypy events/
         pass_filenames: false
         additional_dependencies:
           - types-requests==0.1.11
-    -   id: mypy
+      - id: mypy
         name: mypy-report
         files: ^report/
         entry: mypy report/
         pass_filenames: false
         additional_dependencies:
           - types-requests==0.1.11
-    -   id: mypy
+      - id: mypy
         name: mypy-tools
         files: ^tools/
         entry: mypy tools/

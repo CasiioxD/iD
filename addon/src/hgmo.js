@@ -4,14 +4,16 @@
 
 "use strict";
 
-import {getCoverage, injectToggle} from './button';
+import { getCoverage, injectToggle } from "./button";
 
 let filename = "";
 let revision = "";
 const linePattern = new RegExp("^l([0-9]+)$");
 
-document.querySelectorAll("title").forEach(title => {
-  const titlePattern = new RegExp("^mozilla-central: ([^@]+)@([0-9a-f]+)(?: \\(annotated\\))?$");
+document.querySelectorAll("title").forEach((title) => {
+  const titlePattern = new RegExp(
+    "^mozilla-central: ([^@]+)@([0-9a-f]+)(?: \\(annotated\\))?$",
+  );
   const m = title.innerText.match(titlePattern);
   if (m) {
     filename = m[1];
@@ -21,24 +23,24 @@ document.querySelectorAll("title").forEach(title => {
 
 async function applyOverlay(revPromise, path) {
   let result = await getCoverage(revPromise, path);
-  if (!result.hasOwnProperty("coverage")) {
+  if (!Object.prototype.hasOwnProperty.call(result, "coverage")) {
     throw new Error("No 'coverage' field");
   }
-  const data = result["coverage"];
-  document.querySelectorAll("[id^='l']").forEach(e => {
+  const data = result.coverage;
+  document.querySelectorAll("[id^='l']").forEach((e) => {
     const m = e.id.match(linePattern);
     if (!m) {
       return;
     }
     const linenum = m[1];
-    if (data.hasOwnProperty(linenum)) {
-      e.style.backgroundColor = (data[linenum] > 0) ? "greenyellow" : "tomato";
+    if (Object.prototype.hasOwnProperty.call(data, linenum)) {
+      e.style.backgroundColor = data[linenum] > 0 ? "greenyellow" : "tomato";
     }
   });
 }
 
 function removeOverlay() {
-  document.querySelectorAll("[id^='l']").forEach(e => {
+  document.querySelectorAll("[id^='l']").forEach((e) => {
     const m = e.id.match(linePattern);
     if (m) {
       e.style.backgroundColor = "";

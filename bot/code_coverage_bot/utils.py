@@ -45,7 +45,7 @@ def run_check(command, **kwargs):
     )
     _kwargs.update(kwargs)
 
-    log.debug("Running command", command=" ".join(command), kwargs=_kwargs)
+    log.info("Running command", command=" ".join(command), kwargs=_kwargs)
 
     with subprocess.Popen(command, **_kwargs) as proc:
         output, error = proc.communicate()
@@ -59,9 +59,11 @@ def run_check(command, **kwargs):
             f"Command failed with code: {proc.returncode}",
             exit=proc.returncode,
             command=" ".join(command),
-            output=output,
-            error=error,
+            output=output.split("\n")[-1],
+            error=error.split("\n")[-1],
         )
+        print(f"Output:\n{output}")
+        print(f"Error:\n{error}")
 
         raise Exception(f"`{command[0]}` failed with code: {proc.returncode}.")
 
